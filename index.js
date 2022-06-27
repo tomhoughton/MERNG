@@ -3,38 +3,12 @@
 
 // Dependencies:
 const { ApolloServer } = require('apollo-server');
-const gql = require('graphql-tag');
 const mongoose = require('mongoose'); // Lets us interface with MongoDB.
 
 // Other:
-const Post = require('./models/Post');
+const typeDefs = require('./graphql/typeDefs');
+const resolvers = require('./graphql/resolvers');
 const { MONGODB } = require('./config.js');
-
-const typeDefs = gql`
-        type Post {
-            id: ID!
-            body: String!
-            createdat: String!
-            username: String!
-        }
-    type Query {
-        getPosts: [Post]
-    }
-`
-
-// for each query, it has a corresponding resolver to process some logic to return what the query returns.
-const resolvers = {
-    Query: {
-        async getPosts() {
-            try{
-                const posts = await Post.find();
-                return posts;
-            } catch(err) {
-                throw new Error(err);
-            }
-        }
-    }
-}
 
 // Setup Apollo Server:
 const serverApollo = new ApolloServer({
