@@ -13,9 +13,10 @@ const { MONGODB } = require('./config.js');
 // Setup Apollo Server:
 const serverApollo = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({ req }) => ({ req })
 });
-
+00
 // Setup Mongoose:
 mongoose.connect(MONGODB, { useNewUrlParser: true })
     .then(() => {
